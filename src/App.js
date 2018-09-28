@@ -1,21 +1,44 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { connect } from 'react-redux';
+import { Link, Route } from 'react-router-dom';
 
-class App extends Component {
+import './App.css';
+import { tokenSelector } from './modules/currentUser';
+import Login from './modules/login';
+import Registration from './modules/registration';
+
+const mapStateToProps = state => ({
+  isAuthorized: !!tokenSelector(state),
+});
+
+class App extends React.Component {
   render() {
+    const { isAuthorized } = this.props;
+
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
+      <div className="app">
+        <header>
+          <nav>
+            {isAuthorized ? (
+              <React.Fragment>
+                <Link to="/profile">Profile</Link>
+                <Link to="/logout">Log Out</Link>
+              </React.Fragment>
+            ) : (
+              <React.Fragment>
+                <Link to="/login">Log In</Link>
+                <Link to="/sign-up">Sign Up</Link>
+              </React.Fragment>
+            )}
+          </nav>
         </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <main>
+          <Route path="/login" component={Login} />
+          <Route path="/sign-up" component={Registration} />
+        </main>
       </div>
     );
   }
 }
 
-export default App;
+export default connect(mapStateToProps)(App);
