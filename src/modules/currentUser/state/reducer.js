@@ -21,8 +21,8 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch(action.type) {
-    case T.REGISTER:
-      return state;
+    case T.SET_USER:
+      return Object.assign({}, state, action.payload);
     default:
       return state;
   }

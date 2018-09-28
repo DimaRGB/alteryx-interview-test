@@ -1,5 +1,5 @@
 const types = [
-  'REGISTER'
+  'SET_CURRENT_USER'
 ];
 
 types.forEach(type => {
